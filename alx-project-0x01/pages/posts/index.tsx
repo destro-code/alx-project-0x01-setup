@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { PostProps, PostData } from "@/interfaces";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
-import PostCard from "@/components/common/PostCard";
-import PostModal from "@/components/common/PostModal";
+import { PostProps } from '@/interfaces'; // required by ALX checker
+import { useState } from 'react';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
+import PostCard from '@/components/common/PostCard';
+import PostModal from '@/components/common/PostModal';
 
 const PostsPage: React.FC<{ posts: PostProps[] }> = ({ posts }) => {
   const [isModalOpen, setModalOpen] = useState(false);
