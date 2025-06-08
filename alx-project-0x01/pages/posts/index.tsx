@@ -1,34 +1,37 @@
-import { useState } from "react"
+import { GetStaticProps } from "next"
+import { PostProps } from "@/types"
+import PostCard from "@/components/PostCard"
 import Header from "@/components/layout/Header"
-import PostCard from "@/components/common/PostCard"
-import PostModal from "@/components/common/PostModal"
-import { PostProps, PostData } from "@/interfaces"
+import Footer from "@/components/layout/Footer"
 
-export default function PostsPage({ posts }: { posts: PostProps[] }) {
-  const [isModalOpen, setModalOpen] = useState(false)
-  const [newPost, setNewPost] = useState<PostData | null>(null)
-
-  const handleAdd = (p: PostData) => setNewPost(p)
-
-  return (
-    <div className="flex flex-col h-screen">
-      <Header />
-      <main className="p-4">
-        <div className="flex justify-between mb-4">
-          <h1 className="text-2xl font-semibold">Post Content</h1>
-          <button onClick={() => setModalOpen(true)} className="bg-blue-700 text-white px-4 rounded-full">Add Post</button>
-        </div>
-        <div className="grid grid-cols-3 gap-4">
-          {newPost && <PostCard {...newPost} userId={newPost.userId} id={posts.length + 1} />}
-          {posts.map(p => <PostCard key={p.id} {...p} />)}
-        </div>
-      </main>
-      {isModalOpen && <PostModal onClose={() => setModalOpen(false)} onSubmit={handleAdd} />}
-    </div>
-  )
+interface PostsPageProps {
+  posts: PostProps[]
 }
 
-export async function getStaticProps() {
-  const posts = await fetch("https://jsonplaceholder.typicode.com/posts").then(r => r.json())
-  return { props: { posts } }
+const PostsPage: React.FC<PostsPageProps> = ({ posts }) => (
+  <div className="flex flex-col min-h-screen">
+    <Header />
+    <main className="flex-grow container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6">Posts</h1>
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {posts.map(post => (
+          <PostCard key={post.id} post={post} />
+        ))}
+      </div>
+    </main>
+    <Footer />
+  </div>
+)
+
+export const getStaticProps: GetStaticProps = async () => {
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=12")
+  const posts: PostProps[] = await res.json()
+
+  return {
+    props: {
+      posts,
+    },
+  }
 }
+
+export default PostsPage
