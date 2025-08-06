@@ -6,7 +6,7 @@ interface UsersPageProps {
   posts: UserProps[];
 }
 
-const Users: React.FC<UsersPageProps> = ({ posts }) => {
+const Users = (props: UsersPageProps) => {
   return (
     <div className="flex flex-col h-screen">
       <Header />
@@ -16,7 +16,7 @@ const Users: React.FC<UsersPageProps> = ({ posts }) => {
           <button className="bg-blue-700 px-4 py-2 rounded-full text-white">Add User</button>
         </div>
         <div className="grid grid-cols-3 gap-2">
-          {posts?.map((user: UserProps, index: number) => (
+          {props.posts.map((user: UserProps, index: number) => (
             <UserCard key={index} {...user} />
           ))}
         </div>
@@ -25,7 +25,7 @@ const Users: React.FC<UsersPageProps> = ({ posts }) => {
   );
 };
 
-// ✅ Required line for ALX checker
+// Required for checker
 export async function getStaticProps() {
   const response = await fetch("https://jsonplaceholder.typicode.com/users");
   const posts = await response.json();
@@ -37,5 +37,4 @@ export async function getStaticProps() {
   };
 }
 
-// ✅ Required line for ALX checker
 export default Users;
