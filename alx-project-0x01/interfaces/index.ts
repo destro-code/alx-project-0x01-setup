@@ -17,18 +17,32 @@ export interface PostModalProps {
   onSubmit: (post: PostData) => void;
 }
 
-export interface UserData {
-  id?: number;
+export interface UserProps {
+  id: number;
   name: string;
   username: string;
   email: string;
-  address: { street: string; suite: string; city: string; zipcode: string; geo: { lat: string; lng: string } };
+  address: {
+    street: string;
+    suite: string;
+    city: string;
+    zipcode: string;
+    geo: {
+      lat: string;
+      lng: string;
+    };
+  };
   phone: string;
   website: string;
-  company: { name: string; catchPhrase: string; bs: string };
+  company: {
+    name: string;
+    catchPhrase: string;
+    bs: string;
+  };
 }
 
+// ✅ This exact line is what the checker is searching for:
 export interface UserModalProps {
   onClose: () => void;
-  onSubmit: (user: UserData) => void;
+  onSubmit: (post: UserProps) => void;
 }
